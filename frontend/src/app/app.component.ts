@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { chainLinkAbi, chainLinkAddress, Web3Provider } from "./web3-provider";
 
 //
 // import Web3 from 'web3';
@@ -33,18 +34,47 @@ export class AppComponent implements OnInit {
   amount: number;
   address: string;
 
-  constructor(private http: HttpClient) {
+  private readonly chainLink;
+  private readonly swap;
 
+  constructor(private http: HttpClient) {
+    this.chainLink = new Web3Provider(chainLinkAbi, chainLinkAddress);
   }
 
   ngOnInit() {
     // web3.currentProvider.enable()
     // window.torus.getPublicAddress('artall64@gmail.com').then( (addr) => {debugger})
     //
+
+    //
+    // http://35.228.96.248/getBalance/{address}/?network=basechain
+    // http://35.228.96.248/getBalance/2dc356e6c07379ae86c09fadd6ba1f858ec65bab0252f4e36c05c5ff73b9806c/?network=basechain
+    //
+
+    this.getCourse();
+    this.getBalance();
+  }
+
+  async getCourse() {
+    // eth2usd
+    const course = await this.chainLink.callSmartContract('current');
+    console.log(course);
+  }
+
+  async getBalance() {
+    const addr = this.chainLink.getAddress();
+    if (!addr) {
+      console.log(`Probably you didn't share address with host, check your metamask`);
+      return 0;
+    }
+
+    console.log(addr);
+    const bal = await this.chainLink.getBalance(addr);
+    console.log(this.chainLink.fw(bal));
   }
 
   sendEth() {
-
+    // ??
   }
 
   sendGrams() {
@@ -63,7 +93,8 @@ export class AppComponent implements OnInit {
     this.http.post('https://client.buttonwallet.com/api/TonFastLink/create', payload)
       .subscribe((resp) => {
         const {uuid, botLink} = (resp as any);
-        window.open('https://t.me/wallet_test_bot?start=69907838898');
+        // window.open('https://t.me/wallet_test_bot?start=69907838898');
+        window.open(botLink);
       }, (error) => {
         console.log(error);
       });
