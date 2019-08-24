@@ -29,14 +29,14 @@
           </mat-form-field>
 
           <div *ngIf="amount">
-            <span style="color: darkgray">You will receive:</span>&#160;
-            <span>
+            <span style="color: darkgray">You will receive:</span>
+            <div>
               {{amount * (selectedCurrency == 'ETH' ? eth2ton : ton2eth)}}
               {{selectedCurrency == 'ETH' ? 'Grams' : 'ETH'}}
-            </span>
+            </div>
           </div>
 
-          <div style="margin-top: 24px">
+          <div style="margin-top: 12px">
             <button mat-stroked-button matStepperNext color="primary">Next</button>
           </div>
         </div>

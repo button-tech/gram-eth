@@ -49,4 +49,4 @@ export const swapContractAbi = [
     type: 'function'
   }
 ];
-export const swapAddress = '0xe89ce7caabe4c73f8aa4173e022185d67cf8780e';
+export const swapAddress = '0xb59f0551232f74305598b8922131cc15342950e6';
