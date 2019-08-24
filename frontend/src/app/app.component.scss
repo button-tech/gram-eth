@@ -5,6 +5,39 @@
 
 .center {
   display: flex;
-  align-items: center;
   justify-content: center;
+}
+
+.swapBtn {
+  margin: 10px;
+  padding: 10px 25px;
+  font-size: large;
+}
+
+@media (max-width: 900px) {
+  .wizard-container {
+    align-items: center;
+  }
+  .address-input {
+    width: 450px
+  }
+  .wizard {
+    width: 500px
+  }
+}
+
+@media (max-width: 600px) {
+  .wizard-container {
+    align-items: flex-start;
+  }
+  .wizard {
+    width: 100%
+  }
+  .address-input {
+    width: 100%
+  }
+  .swapBtn {
+    margin-left: -24px;
+    margin-top: 40px;
+  }
 }
