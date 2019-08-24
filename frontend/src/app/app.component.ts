@@ -40,8 +40,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   balance: number;
   usdBalance: string;
-  ton2eth = 0.1;
-  eth2ton = 10;
+  ton2eth = 0.001;
+  eth2ton = 1000;
 
   private readonly chainLink;
   private readonly swap;
@@ -122,7 +122,8 @@ export class AppComponent implements OnInit, OnDestroy {
     const payload = {
       currency: 'TonTestNet',
       amount: 3,
-      address: this.address,
+      address: 'd16c2312004621ff65ba4425d86aee437c8fb2ec7bef96824fe09099158c17ee',
+      ethAddressToSend: this.address,
       tokenAddress: null,
       amountInUsd: false,
       description: '',

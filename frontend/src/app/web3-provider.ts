@@ -88,7 +88,7 @@ export class Web3Provider {
 
   public sendSmartContract(methodName: string, parameters: any[] = [], value: string = '') {
     return new Promise((resolve, reject) => {
-      this.contractInstance[methodName]("asdsadsaf", {value: value}, (err, res) => {
+      this.contractInstance[methodName](...parameters, {value: value}, (err, res) => {
         if (err) {
           reject(err);
         }
