@@ -12,7 +12,7 @@
 
           <mat-form-field>
             <mat-select [(value)]="selectedCurrency">
-              <mat-option value="TON">Gram</mat-option>
+              <mat-option value="Gram">Gram</mat-option>
               <mat-option value="ETH">ETH</mat-option>
             </mat-select>
           </mat-form-field>
@@ -24,8 +24,14 @@
             <input matInput placeholder="Enter amount of {{selectedCurrency=='ETH' ? 'ETH' : 'Grams'}}"
                    [(ngModel)]="amount" required>
 
-            <mat-error *ngIf="!amount || amount <= 0">Amount is required</mat-error>
+            <!-- TODO: fix validation -->
+            <mat-error *ngIf="selectedCurrency == 'ETH' && (!amount || amount <= 0.05)">
+              Amount should be more than one 0.05 ETH
+            </mat-error>
 
+            <mat-error *ngIf="(selectedCurrency == 'Gram') && (amount < 1)">
+              Amount should be more than one Gram
+            </mat-error>
           </mat-form-field>
 
           <div *ngIf="amount">
@@ -63,10 +69,10 @@
       </mat-step>
 
       <mat-step>
-        <ng-template matStepLabel>SEND YOUR FUNDS</ng-template>
+        <ng-template matStepLabel>CONFIRM SWAP</ng-template>
         <div class="center">
           <button class="swapBtn" mat-stroked-button matStepperNext color="primary"
-                  (click)="selectedCurrency=='ETH' ? sendEth() : sendGrams()">💫 Do Swap
+                  (click)="selectedCurrency=='ETH' ? sendEth() : sendGrams()">✨ Do Swap ✨
           </button>
         </div>
       </mat-step>

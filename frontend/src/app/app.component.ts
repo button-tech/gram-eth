@@ -34,7 +34,7 @@ import { map, switchMap, tap } from 'rxjs/operators';
 })
 export class AppComponent implements OnInit, OnDestroy {
   isLinear = true;
-  selectedCurrency = 'TON';
+  selectedCurrency: 'Gram' | 'ETH' = 'Gram';
   amount: number;
   address: string;
 
