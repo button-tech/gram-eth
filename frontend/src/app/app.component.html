@@ -8,7 +8,7 @@
 
       <mat-step>
         <div style="display: flex; flex-direction: column; padding-right: 20px">
-          <ng-template matStepLabel>YOU SEND</ng-template>
+          <ng-template matStepLabel>YOU SEND:</ng-template>
 
           <mat-form-field>
             <mat-select [(value)]="selectedCurrency">
@@ -16,12 +16,12 @@
               <mat-option value="ETH">ETH</mat-option>
             </mat-select>
           </mat-form-field>
-          <small *ngIf="selectedCurrency=='ETH'" style="margin-top: -10px;padding-bottom: 30px">
+          <small *ngIf="selectedCurrency=='ETH'" style="margin-top: -10px;padding-bottom: 25px">
             {{balance}} ETH / ${{usdBalance}}
           </small>
 
           <mat-form-field>
-            <input matInput placeholder="Enter amount of {{selectedCurrency=='ETH' ? 'ETH' : 'gramms'}}"
+            <input matInput placeholder="Enter amount of {{selectedCurrency=='ETH' ? 'ETH' : 'Grams'}}"
                    [(ngModel)]="amount" required>
 
             <mat-error *ngIf="!amount || amount <= 0">Amount is required</mat-error>
@@ -30,7 +30,10 @@
 
           <div *ngIf="amount">
             <span style="color: darkgray">You will receive:</span>&#160;
-            <span>{{amount * 10}} {{selectedCurrency == 'ETH' ? 'grams' : 'ETH'}}</span>
+            <span>
+              {{amount * (selectedCurrency == 'ETH' ? 100 : 0.01)}}
+              {{selectedCurrency == 'ETH' ? 'Grams' : 'ETH'}}
+            </span>
           </div>
 
           <div style="margin-top: 24px">
@@ -45,13 +48,15 @@
 
           <mat-form-field>
 
-            <input matInput placeholder="Enter {{selectedCurrency=='ETH' ? 'ETH' : 'gramms'}} address"
+            <input matInput placeholder="Enter {{selectedCurrency=='ETH' ? 'ETH' : 'Grams'}} address"
                    [(ngModel)]="address" required>
 
             <mat-error *ngIf="!address">Address is required</mat-error>
           </mat-form-field>
 
           <div style="margin-top: 10px">
+            <button mat-stroked-button matStepperNext color="primary">Use email</button>
+            &nbsp;
             <button mat-stroked-button matStepperNext color="primary">Next</button>
           </div>
 

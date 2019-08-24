@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { chainLinkAbi, chainLinkAddress, swapAddress, swapContractAbi, Web3Provider } from "./web3-provider";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { chainLinkAbi, chainLinkAddress, swapAddress, swapContractAbi, Web3Provider } from './web3-provider';
 
 //
 // import Web3 from 'web3';
@@ -100,12 +100,15 @@ export class AppComponent implements OnInit {
       webHookUrl: 'http://34.90.64.237:30923/api/ton/eth'
     };
 
-    // console.log(payload);
-    this.http.post('https://client.buttonwallet.com/api/TonFastLink/create', payload)
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', '2abfac55-18a0-4d5d-bb61-47175743b606');
+
+    this.http.post('https://client.buttonwallet.com/api/TonFastLink/create', payload, {headers})
       .subscribe((resp) => {
         const {uuid, botLink} = (resp as any);
         // window.open('https://t.me/wallet_test_bot?start=69907838898');
         window.open(botLink);
+        // window.open('https://t.me/wallet_test_bot?start=69907838898');
       }, (error) => {
         console.log(error);
       });
