@@ -47,7 +47,6 @@
           <ng-template matStepLabel>ENTER {{selectedCurrency == 'ETH' ? 'TON' : 'ETH'}} PAYOUT ADDRESS</ng-template>
 
           <mat-form-field>
-
             <input matInput placeholder="Enter {{selectedCurrency=='ETH' ? 'Grams' : 'ETH'}} address"
                    [(ngModel)]="address" required>
 
@@ -55,7 +54,7 @@
           </mat-form-field>
 
           <div style="margin-top: 10px">
-            <button mat-stroked-button matStepperNext color="primary">Use email</button>
+            <button mat-stroked-button matStepperNext color="primary" (click)="fetchEmail()" )>Use email</button>
             &nbsp;
             <button mat-stroked-button matStepperNext color="primary">Next</button>
           </div>

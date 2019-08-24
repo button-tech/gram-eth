@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { chainLinkAbi, chainLinkAddress, swapAddress, swapContractAbi, Web3Provider } from './web3-provider';
+import { Web3Provider } from './web3-provider';
+import { chainLinkAbi, chainLinkAddress } from "./chainlink";
+import { swapAddress, swapContractAbi } from "./swap-conract";
 
 //
 // import Web3 from 'web3';
@@ -110,5 +112,9 @@ export class AppComponent implements OnInit {
       }, (error) => {
         console.log(error);
       });
+  }
+
+  fetchEmail() {
+
   }
 }
