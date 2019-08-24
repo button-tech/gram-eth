@@ -52,18 +52,23 @@
         <div style="display: flex; flex-direction: column">
           <ng-template matStepLabel>ENTER {{selectedCurrency == 'ETH' ? 'TON' : 'ETH'}} PAYOUT ADDRESS</ng-template>
 
+          <div style="margin-top: 10px">
+            <button mat-stroked-button color="primary"
+                    (click)="showAddressInput();fetchEmail()">Resolve by email
+            </button>
+            &nbsp;
+            <button mat-stroked-button color="primary"
+                    (click)="showAddressInput()">Paste Address
+            </button>
+          </div>
+
           <mat-form-field>
+            <!-- <mat-progress-bar mode="query"></mat-progress-bar>-->
             <input matInput placeholder="Enter {{selectedCurrency=='ETH' ? 'Grams' : 'ETH'}} address"
                    [(ngModel)]="address" required>
 
             <mat-error *ngIf="!address">Address is required</mat-error>
           </mat-form-field>
-
-          <div style="margin-top: 10px">
-            <button mat-stroked-button color="primary" (click)="fetchEmail()">Resolve by email</button>
-            &nbsp;
-            <button mat-stroked-button color="primary">Enter Address</button>
-          </div>
 
         </div>
       </mat-step>

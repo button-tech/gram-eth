@@ -9,7 +9,8 @@ import {
   MatFormFieldModule,
   MatInputModule, MatListModule,
   MatSelectModule,
-  MatStepperModule
+  MatStepperModule,
+  MatProgressBarModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -32,9 +33,11 @@ import { HttpClientModule } from '@angular/common/http';
     MatFormFieldModule,
     MatSelectModule,
     MatDividerModule,
-    MatListModule
+    MatListModule,
+    MatProgressBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

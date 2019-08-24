@@ -37,6 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
   selectedCurrency: 'Gram' | 'ETH' = 'Gram';
   amount: number;
   address: string;
+  isAddressInputVisible = false;
 
   balance: number;
   usdBalance: string;
@@ -144,5 +145,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   fetchEmail() {
 
+  }
+
+  showAddressInput() {
+    this.isAddressInputVisible = true;
   }
 }
