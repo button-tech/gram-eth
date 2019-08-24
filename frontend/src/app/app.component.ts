@@ -3,8 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Web3Provider } from './web3-provider';
 import { chainLinkAbi, chainLinkAddress } from './chainlink';
 import { swapAddress, swapContractAbi } from './swap-conract';
-import { combineLatest, from, Observable, Subscription, timer } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { combineLatest, from, interval, merge, Observable, of, Subscription, timer } from 'rxjs';
+import { first, map, switchMap, take, tap, timeout } from 'rxjs/operators';
 
 //
 // import Web3 from 'web3';
@@ -37,16 +37,17 @@ export class AppComponent implements OnInit, OnDestroy {
   selectedCurrency: 'Gram' | 'ETH' = 'Gram';
   amount: number;
   address: string;
-  isAddressInputVisible = false;
+  email: string;
 
   balance: number;
   usdBalance: string;
   ton2eth = 0.001;
   eth2ton = 1000;
+  resolvingAddressByEmail = false;
+  enterManually = true;
 
   private readonly chainLink;
   private readonly swap;
-
   private subscription: Subscription;
 
   constructor(private http: HttpClient) {
@@ -143,11 +144,63 @@ export class AppComponent implements OnInit, OnDestroy {
       });
   }
 
-  fetchEmail() {
-
+  enterAddressManually() {
+    this.enterManually = true;
+    this.address = '';
+    this.email = '';
+    this.resolvingAddressByEmail = false;
   }
 
-  showAddressInput() {
-    this.isAddressInputVisible = true;
+  fetchAddressByEmail() {
+    this.enterManually = false;
+    this.address = '';
+
+    if (!this.email || this.email.indexOf('@') === -1) {
+      return;
+    }
+
+    this.resolvingAddressByEmail = true;
+
+    // WARNING: web3 0.20.3
+    const sha3 = (window as any).web3.sha3;
+
+    let promise: Promise<string>;
+    if ((window as any).torus) {
+      // TODO: implement with debounce on keydown with observable
+      // const promise = (window as any).torus.getPublicAddress(this.email);
+      // Observable.from(promise).pipe();
+      promise = (window as any).torus.getPublicAddress(this.email);
+    } else {
+      // Mock on the eth berlin to avoid conflicts with metamask
+      promise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          if (sha3(this.email) === '0x342d98173a593ce5bd91af38752537722db74cc8d880fc81b0015c642d8c3f02') {
+            // Mock address 1
+            resolve('0x8907B733F664903512ce3F40f16fd67Ac5E7225C');
+          } else if (sha3(this.email) === '0xc85207082f2dac41fe03915afe2d6431924df99d528d32c37709a57e0c2efaa9') {
+            // Mock address 2
+            resolve('0x3EFa2B2A67268C8B3F0bF219180021CC62A57a0c');
+          }
+        }, 1300);
+      });
+    }
+
+    const p$ = from(promise);
+    const t$ = interval(2500).pipe(map(() => ''));
+
+    merge(p$, t$).pipe(
+      take(1)
+    ).subscribe((addr: any) => {
+      this.address = addr;
+      this.enterManually = true;
+    }, () => {
+      this.address = '';
+    }, () => {
+      this.resolvingAddressByEmail = false;
+    });
+  }
+
+  resetAddress() {
+    this.address = '';
   }
 }
