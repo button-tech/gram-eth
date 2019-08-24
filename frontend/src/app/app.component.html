@@ -1,12 +1,13 @@
 <div id="body" class="full-screen center wizard-container" style="flex-direction: column;align-items: center">
 
+
   <div style="width: 400px;align-items: center;">
     <h1 style="padding: 0 30px;">Ethereum ❤️ Telegram Gateway</h1>
 
     <mat-vertical-stepper [linear]="isLinear" #stepper class="wizard">
 
       <mat-step>
-        <div style="display: flex; flex-direction: column">
+        <div style="display: flex; flex-direction: column; padding-right: 20px">
           <ng-template matStepLabel>YOU SEND</ng-template>
 
           <mat-form-field>
@@ -15,6 +16,9 @@
               <mat-option value="ETH">ETH</mat-option>
             </mat-select>
           </mat-form-field>
+          <small *ngIf="selectedCurrency=='ETH'" style="margin-top: -10px;padding-bottom: 30px">
+            {{balance}} ETH / ${{usdBalance}}
+          </small>
 
           <mat-form-field>
             <input matInput placeholder="Enter amount of {{selectedCurrency=='ETH' ? 'ETH' : 'gramms'}}"
@@ -25,8 +29,8 @@
           </mat-form-field>
 
           <div *ngIf="amount">
-            <span style="color: darkgray">You receive:</span>&#160;
-            <span>{{amount}} {{selectedCurrency == 'ETH' ? 'grams' : 'ETH'}}</span>
+            <span style="color: darkgray">You will receive:</span>&#160;
+            <span>{{amount * 10}} {{selectedCurrency == 'ETH' ? 'grams' : 'ETH'}}</span>
           </div>
 
           <div style="margin-top: 24px">
@@ -37,7 +41,7 @@
 
       <mat-step>
         <div style="display: flex; flex-direction: column">
-          <ng-template matStepLabel>ENTER {{selectedCurrency=='ETH' ? 'TON' : 'ETH'}} PAYOUT ADDRESS</ng-template>
+          <ng-template matStepLabel>ENTER {{selectedCurrency == 'ETH' ? 'TON' : 'ETH'}} PAYOUT ADDRESS</ng-template>
 
           <mat-form-field>
 

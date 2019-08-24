@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { chainLinkAbi, chainLinkAddress, Web3Provider } from "./web3-provider";
+import { chainLinkAbi, chainLinkAddress, swapAddress, swapContractAbi, Web3Provider } from "./web3-provider";
 
 //
 // import Web3 from 'web3';
@@ -34,14 +34,18 @@ export class AppComponent implements OnInit {
   amount: number;
   address: string;
 
+  balance: number;
+  usdBalance: string;
+
   private readonly chainLink;
   private readonly swap;
 
   constructor(private http: HttpClient) {
     this.chainLink = new Web3Provider(chainLinkAbi, chainLinkAddress);
+    this.swap = new Web3Provider(swapContractAbi, swapAddress);
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     // web3.currentProvider.enable()
     // window.torus.getPublicAddress('artall64@gmail.com').then( (addr) => {debugger})
     //
@@ -51,34 +55,41 @@ export class AppComponent implements OnInit {
     // http://35.228.96.248/getBalance/2dc356e6c07379ae86c09fadd6ba1f858ec65bab0252f4e36c05c5ff73b9806c/?network=basechain
     //
 
-    this.getCourse();
-    this.getBalance();
+    // this.getExchangeRate();
+    // this.getBalance();
+    this.balance = await this.getEthBalance();
+    const rate = await this.eth2usd();
+    this.usdBalance = (Number(this.balance) * Number(rate)).toFixed(2);
   }
 
-  async getCourse() {
-    // eth2usd
-    const course = await this.chainLink.callSmartContract('current');
-    console.log(course);
+  // get eth2usd exchange rate from chainlink
+  async eth2usd(): Promise<string> {
+    return await this.chainLink.callSmartContract('current');
   }
 
-  async getBalance() {
+  async getEthBalance(): Promise<number> {
     const addr = this.chainLink.getAddress();
     if (!addr) {
       console.log(`Probably you didn't share address with host, check your metamask`);
       return 0;
     }
-
-    console.log(addr);
-    const bal = await this.chainLink.getBalance(addr);
-    console.log(this.chainLink.fw(bal));
+    // console.log(addr);
+    const wei = await this.chainLink.getBalance(addr);
+    return +this.chainLink.fw(wei);
   }
 
-  sendEth() {
-    // ??
+  async sendEth() {
+    const tonAddress = this.address;
+    const amount = this.swap.tw(this.amount);
+    const txHash = await this.swap.sendSmartContract('sendTon', [tonAddress], amount);
+    console.log(txHash); // show tx hash in UI
   }
 
   sendGrams() {
+    //
+    // Sample tx address
     // d16c2312004621ff65ba4425d86aee437c8fb2ec7bef96824fe09099158c17ee
+    //
     const payload = {
       currency: 'TonTestNet',
       amount: 3,

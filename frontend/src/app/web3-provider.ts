@@ -14,6 +14,61 @@ export const chainLinkAbi = [{
 
 export const chainLinkAddress = '0x2a032eb0af76e6a0315f14b470f1fbe309393416';
 
+
+export const swapContractAbi = [
+  {
+    constant: false,
+    inputs: [
+      {
+        internalType: 'string',
+        name: 'tonAddress',
+        type: 'string'
+      }
+    ],
+    name: 'sendTon',
+    outputs: [],
+    payable: true,
+    stateMutability: 'payable',
+    type: 'function'
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'string',
+        name: 'tonAddress',
+        type: 'string'
+      },
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'sumToSend',
+        type: 'uint256'
+      }
+    ],
+    name: 'EtherRecieved',
+    type: 'event'
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: 'askForRate',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
+    ],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function'
+  }
+];
+
+export const swapAddress = '0xe89ce7caabe4c73f8aa4173e022185d67cf8780e';
+
 export class Web3Provider {
 
   readonly contractInstance: any;
@@ -92,15 +147,17 @@ export class Web3Provider {
   private fromHexToString(hexString) {
     const hex = hexString.toString();
     let str = '';
-    for (let n = 0; n < hex.length; n += 2) {
-      str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
+    for (let n = 2; n < hex.length; n += 2) {
+      const hexByte = hex.substr(n, 2);
+      const num = parseInt(hexByte, 16);
+      str += (num !== 0 ? String.fromCharCode(num) : '0');
     }
     return str;
   }
 
   public sendSmartContract(methodName: string, parameters: any[] = [], value: string = '') {
     return new Promise((resolve, reject) => {
-      this.contractInstance.methods[methodName](...parameters).send({value}, (err, res) => {
+      this.contractInstance[methodName]("asdsadsaf", {value: value}, (err, res) => {
         if (err) {
           reject(err);
         }
@@ -115,5 +172,6 @@ export class Web3Provider {
     }
     return this.contractInstance.methods[methodName](...parameters).encodeABI();
   }
+
 
 }
