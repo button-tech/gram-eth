@@ -1,54 +1,63 @@
 <div class="full-screen center" style="flex-direction: column">
-<!--  <h1>Ethereum <b>⇄</b> Telegram</h1>-->
+  <!--  <h1>Ethereum <b>⇄</b> Telegram</h1>-->
   <h1>Ethereum ❤️ Telegram Gateway</h1>
   <mat-vertical-stepper [linear]="isLinear" #stepper>
 
-    <mat-step [stepControl]="firstFormGroup">
-      <form [formGroup]="firstFormGroup" style="display: flex; flex-direction: column">
+    <mat-step>
+      <div style="display: flex; flex-direction: column">
         <ng-template matStepLabel>YOU SEND</ng-template>
 
         <mat-form-field>
-          <mat-select formControlName="currencyCtrl">
-            <mat-option *ngFor="let currency of currencies" [value]="selectedCurrency">
-              {{currency}}
-            </mat-option>
+          <mat-select [(value)]="selectedCurrency">
+            <mat-option value="TON">Gram</mat-option>
+            <mat-option value="ETH">ETH</mat-option>
           </mat-select>
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput placeholder="Enter amount of gramms" formControlName="amountCtrl" required>
+          <input matInput placeholder="Enter amount of {{selectedCurrency=='ETH' ? 'ETH' : 'gramms'}}"
+                 [(ngModel)]="amount" required>
+
+          <mat-error *ngIf="!amount || amount <= 0">Amount is required</mat-error>
+
         </mat-form-field>
 
-        <div>
-          <span style="color: darkgray">You receive:</span>&#160;<span>2 ETH</span>
+        <div *ngIf="amount">
+          <span style="color: darkgray">You receive:</span>&#160;
+          <span>{{amount}} {{selectedCurrency=='ETH' ? 'gramms' : 'ETH'}}</span>
         </div>
 
         <div style="margin-top: 24px">
-          <button mat-stroked-button matStepperNext  color="primary">Next</button>
+          <button mat-stroked-button matStepperNext color="primary">Next</button>
         </div>
-      </form>
+      </div>
     </mat-step>
 
-    <mat-step [stepControl]="secondFormGroup">
-      <form [formGroup]="secondFormGroup" style="width: 450px">
+    <mat-step>
+      <div style="width: 450px">
         <ng-template matStepLabel>ENTER ETH PAYOUT ADDRESS</ng-template>
 
         <mat-form-field style="width: 450px;">
-          <input matInput placeholder="Address" formControlName="secondCtrl"  required>
+          <!-- <input matInput placeholder="Address"> -->
+          <input matInput placeholder="Enter {{selectedCurrency=='ETH' ? 'ETH' : 'gramms'}} address"
+                 [(ngModel)]="address" required>
+
+          <mat-error *ngIf="!address">Address is required</mat-error>
         </mat-form-field>
 
-        <div>
-          <button mat-stroked-button matStepperNext  color="primary">Next</button>
+        <div style="margin-top: 10px">
+          <button mat-stroked-button matStepperNext color="primary">Next</button>
         </div>
 
-      </form>
+      </div>
     </mat-step>
 
     <mat-step>
       <ng-template matStepLabel>SEND YOUR FUNDS</ng-template>
       <div class="center">
         <button style="margin: 10px;padding: 10px 25px;font-size: large;"
-          mat-stroked-button matStepperNext color="primary">💫 Do Swap</button>
+                mat-stroked-button matStepperNext color="primary">💫 Do Swap
+        </button>
       </div>
     </mat-step>
   </mat-vertical-stepper>

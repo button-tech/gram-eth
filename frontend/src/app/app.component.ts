@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -9,31 +9,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class AppComponent implements OnInit {
   isLinear = true;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-
   selectedCurrency = 'TON';
-  currencies = ['TON', 'ETH'];
-  // currencies = [
-  //   {viewValue: 'TON', value: 'ton' },
-  //   {viewValue: 'ETH', value: 'eth' },
-  // ];
+  amount: number;
+  address: string;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor() {
   }
 
   ngOnInit() {
-
-    this.firstFormGroup = this.formBuilder.group({
-      amountCtrl: ['', Validators.required],
-      currencyCtrl: ['', Validators.required],
-    });
-
-    this.firstFormGroup.controls.currencyCtrl.setValue('TON');
-
-
-    this.secondFormGroup = this.formBuilder.group({
-      secondCtrl: ['', Validators.required]
-    });
+    //
   }
 }
