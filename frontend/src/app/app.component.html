@@ -48,7 +48,7 @@
 
           <mat-form-field>
 
-            <input matInput placeholder="Enter {{selectedCurrency=='ETH' ? 'ETH' : 'Grams'}} address"
+            <input matInput placeholder="Enter {{selectedCurrency=='ETH' ? 'Grams' : 'ETH'}} address"
                    [(ngModel)]="address" required>
 
             <mat-error *ngIf="!address">Address is required</mat-error>
