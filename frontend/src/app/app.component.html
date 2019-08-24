@@ -31,7 +31,7 @@
           <div *ngIf="amount">
             <span style="color: darkgray">You will receive:</span>&#160;
             <span>
-              {{amount * (selectedCurrency == 'ETH' ? 100 : 0.01)}}
+              {{amount * (selectedCurrency == 'ETH' ? eth2ton : ton2eth)}}
               {{selectedCurrency == 'ETH' ? 'Grams' : 'ETH'}}
             </span>
           </div>
@@ -54,7 +54,7 @@
           </mat-form-field>
 
           <div style="margin-top: 10px">
-            <button mat-stroked-button matStepperNext color="primary" (click)="fetchEmail()" )>Use email</button>
+            <button mat-stroked-button matStepperNext color="primary" (click)="fetchEmail()">Use email</button>
             &nbsp;
             <button mat-stroked-button matStepperNext color="primary">Next</button>
           </div>
