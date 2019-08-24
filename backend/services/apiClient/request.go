@@ -23,13 +23,13 @@ func InitApiClient(url string) {
 }
 
 func apiCall(method string, path string, data interface{}) *apiResponse {
-	var response *req.Resp
-	var respErr error
-	var authHeader req.Header
-
-	authHeader = req.Header{
-		"Content-Type": "application/json",
-	}
+	var (
+		response   *req.Resp
+		respErr    error
+		authHeader = req.Header{
+			"Content-Type": "application/json",
+		}
+	)
 
 	uri := apiUrl + path
 	if data != nil && method != "GET" {
@@ -91,14 +91,11 @@ func serialize(data interface{}) ([]byte, error) {
 	switch data.(type) {
 	case []byte:
 		return data.([]byte), nil
-		break
 	default:
 		result, err := json.Marshal(data)
 		if err != nil {
 			return nil, err
 		}
 		return result, nil
-		break
 	}
-	return nil, nil
 }

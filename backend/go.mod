@@ -37,6 +37,7 @@ require (
 	github.com/steakknife/hamming v0.0.0-20180906055917-c99c65617cd3 // indirect
 	github.com/syndtr/goleveldb v1.0.0 // indirect
 	github.com/tyler-smith/go-bip39 v1.0.2 // indirect
+	github.com/wavesplatform/gowaves v0.2.0 // indirect
 	github.com/wsddn/go-ecdh v0.0.0-20161211032359-48726bab9208 // indirect
 	golang.org/x/sync v0.0.0-20190423024810-112230192c58 // indirect
 	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce // indirect

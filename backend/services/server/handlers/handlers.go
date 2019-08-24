@@ -2,13 +2,13 @@ package handlers
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"github.com/button-tech/gram-eth/backend/dto"
 	"github.com/button-tech/gram-eth/backend/dto/ton"
 	"github.com/button-tech/gram-eth/backend/services/apiClient"
 	"github.com/button-tech/gram-eth/backend/services/sender"
-	"strconv"
+	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 func CheckAuth(c *gin.Context) {
@@ -22,13 +22,13 @@ func ExchangeTonToEthereum(c *gin.Context) {
 		return
 	}
 
-	value, err  := strconv.ParseFloat(body.Value, 64)
-	if err != nil{
-		c.JSON(http.StatusInternalServerError, gin.H{"error":err.Error()})
+	value, err := strconv.ParseFloat(body.Value, 64)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	txHash, err := sender.Send(body.To, value)
+	txHash, err := sender.Send(body.SenderEthAddress, value)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, "error")
 		return
@@ -63,4 +63,10 @@ func ExchangeEthereumToTon(c *gin.Context) {
 	}
 
 	fmt.Println(body)
+	/*if !body.Success {
+	apiClient.CreateTransaction(ton.CreateTransactionRequest{
+		RecipientPub: body.RecipientPub,
+		Amount: body.Amount,
+	})
+	}*/
 }
