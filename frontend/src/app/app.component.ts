@@ -106,9 +106,7 @@ export class AppComponent implements OnInit {
     this.http.post('https://client.buttonwallet.com/api/TonFastLink/create', payload, {headers})
       .subscribe((resp) => {
         const {uuid, botLink} = (resp as any);
-        // window.open('https://t.me/wallet_test_bot?start=69907838898');
         window.open(botLink);
-        // window.open('https://t.me/wallet_test_bot?start=69907838898');
       }, (error) => {
         console.log(error);
       });
