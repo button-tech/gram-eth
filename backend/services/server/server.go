@@ -3,7 +3,7 @@ package server
 import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	. "github.com/artall64/gram-eth/backend/services/server/handlers"
+	. "github.com/button-tech/gram-eth/backend/services/server/handlers"
 )
 
 func InitServer() *gin.Engine {
@@ -26,6 +26,8 @@ func RunServer(R *gin.Engine) error {
 		api := R.Group("/api")
 		{
 			api.POST("/ton/eth", ExchangeTonToEthereum)
+			api.POST("/eth/ton/prepare", PrepareExchangeEthereumToTon)
+			api.POST("/eth/ton", ExchangeEthereumToTon)
 		}
 	}
 

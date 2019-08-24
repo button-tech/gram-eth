@@ -1,12 +1,13 @@
 package main
 
 import (
+	"github.com/button-tech/gram-eth/backend/services/apiClient"
 	"log"
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/artall64/gram-eth/backend/services/sender"
-	"github.com/artall64/gram-eth/backend/services/server"
+	"github.com/button-tech/gram-eth/backend/services/sender"
+	"github.com/button-tech/gram-eth/backend/services/server"
 )
 
 var (
@@ -14,10 +15,15 @@ var (
 )
 
 func init() {
-	ServerInstance = server.InitServer()
 	endpoint := os.Getenv("ENDPOINT")
 	privateKey := os.Getenv("PRIVATE_KEY")
+	tonApiUrl := os.Getenv("TON_API_URL")
+	webhookUrl := os.Getenv("WEBHOOK_URL")
+
+	ServerInstance = server.InitServer()
 	sender.InitEthereum(endpoint, privateKey)
+	apiClient.InitApiClient(tonApiUrl)
+	apiClient.InitTonApiCLient(webhookUrl)
 }
 
 func main() {

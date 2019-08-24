@@ -1,7 +1,7 @@
 package sender
 
 import (
-	"github.com/artall64/gram-eth/backend/services/ethereum"
+	"github.com/button-tech/gram-eth/backend/services/ethereum"
 	"log"
 )
 

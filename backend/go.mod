@@ -1,4 +1,4 @@
-module github.com/artall64/gram-eth/backend
+module github.com/button-tech/gram-eth/backend
 
 require (
 	github.com/allegro/bigcache v1.2.1 // indirect
