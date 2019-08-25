@@ -84,14 +84,10 @@ var (
 	url      = "wss://testnet-dex.binance.org/api/ws"
 )
 
-<<<<<<< HEAD
 // 0.10000001 BNB
 // sendTransaction("tbnb15qfcd5863pgf9qevefn5sj056cyk4r9mtcktnn", 10000001)
 
-func sendTransaction(address string, sum int64) {
-=======
 func SendTransaction(address string, sum int64)  {
->>>>>>> 383c25cd49943d568a97423b07c97137617a54c9
 	keyManager, err := keys.NewMnemonicKeyManager(mnemonic)
 	if err != nil {
 		log.Fatal(err)
