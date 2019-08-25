@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/EnoRage/gram-eth/backend/services/binance"
+	"github.com/button-tech/gram-eth/backend/services/binance"
 	"github.com/button-tech/gram-eth/backend/dto/ton"
 	"github.com/button-tech/gram-eth/backend/services/apiClient"
 	"github.com/button-tech/gram-eth/backend/services/listener"
