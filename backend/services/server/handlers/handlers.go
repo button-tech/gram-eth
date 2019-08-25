@@ -31,6 +31,13 @@ func ExchangeTonToEthereum(c *gin.Context) {
 	bigFloatAmount := new(big.Float).SetFloat64(floatAmount)
 	value, _ := new(big.Float).Mul(bigFloatAmount, new(big.Float).SetFloat64(0.001)).Float64()
 
+
+	amount := strconv.FormatFloat(value, 'g', 1, 64)
+	apiClient.Nitify(dto.TonNotify{
+		TonPubAddress: body.From,
+		Description: "💎 Your " + amount + " GRAMs are on the way!",
+	})
+
 	txHash, err := sender.Send(body.SenderEthAddress, value)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, "error")
