@@ -89,6 +89,28 @@ func PrepareExchangeEthereumToTon(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+func PrepareExchangeWavesToTon(c *gin.Context) {
+	var body ton.CreateTransactionRequest
+	if err := c.Bind(&body); err != nil {
+		c.JSON(http.StatusInternalServerError, "error")
+		return
+	}
+	response, err := apiClient.CreateTransaction(body)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "error")
+		return
+	}
+	err = apiClient.Nitify(dto.TonNotify{
+		TonPubAddress: body.RecipientPub,
+		Description: "💎 Your " + body.Amount + " GRAMs are on the way! We will notify you when it will be done.",
+	})
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "error")
+		return
+	}
+	c.JSON(http.StatusOK, response)
+}
+
 func ExchangeEthereumToTon(c *gin.Context) {
 	var body ton.CreateTransactionResponse
 	if err := c.Bind(&body); err != nil {
