@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/EnoRage/gram-eth/backend/services/binance"
 	"github.com/button-tech/gram-eth/backend/dto/ton"
 	"github.com/button-tech/gram-eth/backend/services/apiClient"
 	"github.com/button-tech/gram-eth/backend/services/listener"
@@ -33,7 +34,9 @@ func init() {
 	listener.InitListener(endpoint, contractAddress)
 	sender.InitEthereum(endpoint, privateKey)
 	apiClient.InitApiClient(tonApiUrl)
+	go binance.ListenAndSay()
 	apiClient.InitTonApiCLient(webhookUrl, &txGram)
+
 }
 
 func main() {

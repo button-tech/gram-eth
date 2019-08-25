@@ -104,7 +104,7 @@ func SendTransaction(address string, sum int64)  {
 	fmt.Println(send)
 }
 
-func listenAndSay() {
+func ListenAndSay() {
 	if os.Getenv("ENV") == "PROD" {
 		origin = "https://berlin.buttonwallet.tech/"
 	}
@@ -132,8 +132,20 @@ func listenAndSay() {
 		}
 
 		res := returnMemo(data.Data.H)
-		if res == "GRAMETH" {
 
+		if res[:7] == "GRAMETH" {
+			fmt.Println(res[7:])
+			//response, err := apiClient.CreateTransaction(ton.CreateTransactionRequest{
+			//	Amount:       data.Data.T[1].C[1].Abig,
+			//	RecipientPub: res[7:],
+			//})
+			//if err != nil {
+			//	log.Println(err)
+			//	return
+			//}
+			//if response.Success {
+			//	log.Println("true")
+			//}
 		}
 		time.Sleep(time.Second)
 	}
