@@ -5,7 +5,8 @@ import { chainLinkAbi, chainLinkAddress } from './chainlink';
 import { swapAddress, swapContractAbi } from './swap-conract';
 import { combineLatest, from, interval, merge, Observable, Subscription, timer } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
-import {LoadersCSS} from "ngx-loaders-css";
+import { LoadersCSS } from 'ngx-loaders-css';
+import { supportedCurrency, supportedCurrencyList } from './currencies';
 //
 // import Web3 from 'web3';
 // import Torus from '@toruslabs/torus-embed';
@@ -34,43 +35,98 @@ import {LoadersCSS} from "ngx-loaders-css";
 })
 export class AppComponent implements OnInit, OnDestroy {
 
+  srcList = [...supportedCurrencyList];
+  dstList = [...supportedCurrencyList];
+
+  // tslint:disable-next-line:variable-name
+  private _dstCurrency: supportedCurrency;
+  get dstCurrency(): supportedCurrency {
+    return this._dstCurrency;
+  }
+
+  set dstCurrency(value: supportedCurrency) {
+    this._dstCurrency = value;
+    this.updateCryptoExchangeRate();
+  }
+
+  // tslint:disable-next-line:variable-name
+  private _srcCurrency: supportedCurrency;
+  get srcCurrency(): supportedCurrency {
+    return this._srcCurrency;
+  }
+
+  set srcCurrency(value: supportedCurrency) {
+    this._srcCurrency = value;
+    this.dstList = supportedCurrencyList.filter(x => x !== value);
+    this.dstCurrency = this.dstList[0];
+    this.updateCryptoExchangeRate();
+  }
+
   loader: LoadersCSS = 'line-scale';
   bgColor = 'white';
   color = 'rgb(63, 81, 181) ';
   isSent = false;
 
   isLinear = true;
-  selectedCurrency: 'Gram' | 'ETH' = 'Gram';
+
   amount: number;
   address: string;
   email: string;
 
   balance: number;
   usdBalance: string;
-  ton2eth = 0.01;
-  eth2ton = 100;
+
+  eth2ton = 1.5;
+  ton2eth = 1 / this.eth2ton;
+
   resolvingAddressByEmail = false;
   enterManually = true;
 
   private readonly chainLink;
   private readonly swap;
   private subscription: Subscription;
+  exchangeRate = 0;
+
+  // (srcCurrency == 'ETH' ? eth2ton : ton2eth)
 
   constructor(private http: HttpClient) {
     this.chainLink = new Web3Provider(chainLinkAbi, chainLinkAddress);
     this.swap = new Web3Provider(swapContractAbi, swapAddress);
+    this.srcCurrency = 'Gram';
+    this.dstCurrency = 'ETH';
   }
 
   // TODO: move to helper
-  private polling(doRequest: () => Promise<any>, interval: number): Observable<any> {
-    return timer(0, interval).pipe(
+  private polling(doRequest: () => Promise<any>, pollingPeriod: number): Observable<any> {
+    return timer(0, pollingPeriod).pipe(
       switchMap(() => {
         return from(doRequest());
       })
     );
   }
 
-  async ngOnInit() {
+  updateCryptoExchangeRate() {
+    if (!this.srcCurrency || !this.dstCurrency) {
+      this.exchangeRate = 0;
+      return;
+    }
+
+    if (this.srcCurrency === 'ETH' && this.dstCurrency === 'Gram') {
+      this.exchangeRate = this.eth2ton;
+      return;
+    }
+
+    if (this.srcCurrency === 'Gram' && this.dstCurrency === 'ETH') {
+      this.exchangeRate = this.ton2eth;
+      return;
+    }
+
+    //
+    // this.dstCurrency && fetchExchangeRate(this.srcCurrency && this.dstCurrency)
+    //
+  }
+
+  ngOnInit() {
 
     const ethBalance$ = this.polling(
       () => this.getEthBalance(),
@@ -213,9 +269,32 @@ export class AppComponent implements OnInit, OnDestroy {
   refresh(): void {
     this.isSent = true;
     setTimeout(() => {
-
       window.location.reload();
-    }, 10000)
+    }, 10000);
+
+  }
+
+  send() {
+    if (this.srcCurrency === 'ETH' && this.dstCurrency === 'Gram') {
+      this.sendEth();
+      // TODO: other ETH pairs
+    } else if (this.srcCurrency === 'Gram' && this.dstCurrency === 'ETH') {
+      this.sendGrams();
+      // TODO: other Gram pairs
+    } else if (this.srcCurrency === 'BNB') {
+      // TODO: ....
+    } else if (this.srcCurrency === 'Waves') {
+      // TODO: ....
+    }
+
+    this.refresh();
+  }
+
+  private sendBnb() {
+
+  }
+
+  private sendWaves() {
 
   }
 }

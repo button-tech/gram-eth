@@ -1,63 +1,75 @@
 <div id="body" class="full-screen center wizard-container" style="flex-direction: column;align-items: center">
 
-  <div *ngIf="isSent"><loaders-css [loader]="loader" [scale]="3" [bgColor]="bgColor" [color]="color"></loaders-css></div>
+
+  <div *ngIf="isSent">
+    <loaders-css [loader]="loader" [scale]="3" [bgColor]="bgColor" [color]="color"></loaders-css>
+  </div>
+
   <div *ngIf="!isSent" style="width: 400px;align-items: center;">
     <!--    <h1 style="padding: 0 30px;">Ethereum ❤️ Telegram Gateway</h1>-->
     <img style="align-self: center; margin-left: 3em; margin-bottom: 2em" width="330" src="../assets/img/grameth.png">
+
     <mat-vertical-stepper [linear]="isLinear" #stepper class="wizard">
 
       <mat-step>
         <div style="display: flex; flex-direction: column; padding-right: 20px">
-          <ng-template matStepLabel>YOU SEND: {{selectedCurrency.toLocaleUpperCase()}}</ng-template>
+          <ng-template matStepLabel>SWAP FROM: {{srcCurrency.toLocaleUpperCase()}}</ng-template>
 
           <mat-form-field>
-            <mat-select [(value)]="selectedCurrency" (change)="resetAddress()">
-              <mat-option value="Gram">Gram</mat-option>
-              <mat-option value="ETH">ETH</mat-option>
+            <mat-select [(value)]="srcCurrency">
+              <mat-option *ngFor="let currency of srcList" [value]="currency">{{currency}}</mat-option>
             </mat-select>
           </mat-form-field>
-          <small *ngIf="selectedCurrency=='ETH'" style="margin-top: -10px;padding-bottom: 25px">
+
+          <small *ngIf="srcCurrency=='ETH'" style="margin-top: -10px;padding-bottom: 25px">
             {{balance}} ETH / ${{usdBalance}}
           </small>
 
           <mat-form-field>
-            <input autocomplete="off" matInput placeholder="Enter amount of {{selectedCurrency=='ETH' ? 'ETH' : 'Grams'}}"
+            <input autocomplete="off" matInput
+                   placeholder="Enter amount of {{srcCurrency}}"
                    [(ngModel)]="amount" required>
 
-            <!-- TODO: fix validation -->
-            <mat-error *ngIf="selectedCurrency == 'ETH' && (!amount || amount <= 0.05)">
+            <!-- TODO: fix validation
+            <mat-error *ngIf="srcCurrency == 'ETH' && (!amount || amount <= 0.05)">
               Amount should be more than one 0.05 ETH
             </mat-error>
 
-            <mat-error *ngIf="(selectedCurrency == 'Gram') && (amount < 1)">
+            <mat-error *ngIf="(srcCurrency == 'Gram') && (amount < 1)">
               Amount should be more than one Gram
             </mat-error>
+            -->
           </mat-form-field>
 
-          <div *ngIf="amount">
-            <span style="color: darkgray">You will receive:</span>
-            <div>
-              {{amount * (selectedCurrency == 'ETH' ? eth2ton : ton2eth)}}
-              {{selectedCurrency == 'ETH' ? 'Grams' : 'ETH'}}
-            </div>
+          <div style="margin-top: 12px; align-self: center">
+            <button class="nextButton" mat-stroked-button matStepperNext color="primary">Next</button>
           </div>
 
-          <div style="margin-top: 12px; align-self: center">
-            <button
-              style="font-size: 15px !important; background: #3f51b5; color: white; padding: 2px; padding-left: 18px; padding-right: 15px"
-              mat-stroked-button matStepperNext color="primary">Next
-            </button>
-          </div>
         </div>
       </mat-step>
 
+
       <mat-step>
 
-        <ng-template matStepLabel>ENTER {{selectedCurrency == 'ETH' ? 'TON' : 'ETHEREUM'}} PAYOUT ADDRESS
-        </ng-template>
+        <ng-template matStepLabel>SWAP TO:</ng-template>
 
-        <!-- Add inverted variable -->
-        <div *ngIf="selectedCurrency=='Gram'" style="display: flex; flex-direction: column">
+        <div style="display: flex; flex-direction: column">
+          <mat-form-field>
+            <mat-select [(value)]="dstCurrency" (change)="resetAddress()">
+              <mat-option *ngFor="let currency of dstList" [value]="currency">{{currency}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div *ngIf="amount && exchangeRate" style="margin-bottom: 10px">
+            <span style="color: darkgray">You will receive:</span>
+            <span style="color: darkgray">
+            ~{{(amount * exchangeRate) | number:'1.1-5'}} {{dstCurrency}}
+          </span>
+          </div>
+        </div>
+
+
+        <div *ngIf="dstCurrency=='ETH'" style="display: flex; flex-direction: column">
 
           <div *ngIf="!enterManually && resolvingAddressByEmail" style="padding: 10px 20px 10px 0">
             <mat-progress-bar mode="query"></mat-progress-bar>
@@ -69,7 +81,7 @@
           </mat-form-field>
 
           <mat-form-field *ngIf="enterManually">
-            <input matInput placeholder="Enter {{selectedCurrency=='ETH' ? 'TON' : 'ethereum'}} address"
+            <input matInput placeholder="Enter {{srcCurrency=='ETH' ? 'TON' : 'ethereum'}} address"
                    [(ngModel)]="address" required>
             <mat-error *ngIf="!address">Address is required</mat-error>
           </mat-form-field>
@@ -83,18 +95,20 @@
               Enter Address
             </button>
           </div>
+
           <div style="margin-top: 5px; align-self: center;">
-            <button style=" background: #3f51b5; color: white; margin-left: -2em" mat-stroked-button matStepperNext
-                    color="primary">
+            <button mat-stroked-button matStepperNext color="primary"
+                    style="background: #3f51b5; color: white; margin-left: -2em">
               Next
             </button>
           </div>
 
         </div>
 
-        <div *ngIf="selectedCurrency=='ETH'" style="display: flex; flex-direction: column">
+
+        <div *ngIf="dstCurrency!=='ETH'" style="display: flex; flex-direction: column">
           <mat-form-field>
-            <input autocomplete="off" matInput placeholder="Enter {{selectedCurrency=='ETH' ? 'TON' : 'ethereum'}} address"
+            <input autocomplete="off" matInput placeholder="Enter {{dstCurrency | symbol2name}} address"
                    [(ngModel)]="address" required>
             <mat-error *ngIf="!address">Address is required</mat-error>
           </mat-form-field>
@@ -102,14 +116,16 @@
 
       </mat-step>
 
+
       <mat-step>
         <ng-template matStepLabel>CONFIRM SWAP</ng-template>
         <div class="center">
-          <button class="swapBtn" mat-stroked-button matStepperNext color="primary"
-                  (click)="selectedCurrency=='ETH' ? sendEth() : sendGrams(); refresh()">✨ Do Swap ✨
+          <button class="swapBtn" mat-stroked-button matStepperNext color="primary" (click)="send();">✨ Do Swap ✨
           </button>
         </div>
       </mat-step>
+
+
     </mat-vertical-stepper>
   </div>
 </div>

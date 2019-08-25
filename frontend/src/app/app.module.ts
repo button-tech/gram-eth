@@ -16,10 +16,12 @@ import {
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { Symbol2namePipe } from './symbol2name.pipe';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    Symbol2namePipe
   ],
   imports: [
     BrowserModule,
