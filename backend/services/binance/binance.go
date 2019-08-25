@@ -3,17 +3,17 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"os"
 
+	sdk "github.com/binance-chain/go-sdk/client"
 	"github.com/imroc/req"
 	"golang.org/x/net/websocket"
 	"log"
 	"time"
-	sdk "github.com/binance-chain/go-sdk/client"
 
 	ctypes "github.com/binance-chain/go-sdk/common/types"
 	"github.com/binance-chain/go-sdk/keys"
 	"github.com/binance-chain/go-sdk/types/msg"
-
 )
 
 type Tx struct {
@@ -78,20 +78,16 @@ type WssResponse struct {
 	} `json:"data"`
 }
 
-var mnemonic = "critic mouse category pig visit kidney weasel coin media price suspect next art model soul shuffle welcome slot thrive sign train large wild submit"
+var (
+	mnemonic = "critic mouse category pig visit kidney weasel coin media price suspect next art model soul shuffle welcome slot thrive sign train large wild submit"
+	origin   = "http://localhost.localdomain/"
+	url      = "wss://testnet-dex.binance.org/api/ws"
+)
 
-//func sendTransaction() {
-//	res, _ := types.AccAddressFromHex("tbnb13095qugzf6d4078hnt9creqetwclvpn2e7yucr")
-//	fmt.Println(res)
-//	//_, err := client.SendToken([]msg.Transfer{{testAccount2, []types.Coin{{"tbnb13095qugzf6d4078hnt9creqetwclvpn2e7yucr", 100000000}}}, {t"tbnb13095qugzf6d4078hnt9creqetwclvpn2e7yucr", []types.Coin{{"BNB", 100000000}}}}, true)
-//}
+// 0.10000001 BNB
+// sendTransaction("tbnb15qfcd5863pgf9qevefn5sj056cyk4r9mtcktnn", 10000001)
 
-func main() {
-	// 0.10000001 BNB
-	sendTransaction("tbnb15qfcd5863pgf9qevefn5sj056cyk4r9mtcktnn", 10000001)
-}
-
-func sendTransaction(address string, sum int64)  {
+func sendTransaction(address string, sum int64) {
 	keyManager, err := keys.NewMnemonicKeyManager(mnemonic)
 	if err != nil {
 		log.Fatal(err)
@@ -108,10 +104,10 @@ func sendTransaction(address string, sum int64)  {
 	fmt.Println(send)
 }
 
-var origin = "http://localhost.localdomain/"
-var url = "wss://testnet-dex.binance.org/api/ws"
-
 func listenAndSay() {
+	if os.Getenv("ENV") == "PROD" {
+		origin = "https://berlin.buttonwallet.tech/"
+	}
 	for {
 		ws, err := websocket.Dial(url, "", origin)
 		if err != nil {
