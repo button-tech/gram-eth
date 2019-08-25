@@ -283,9 +283,23 @@ export class AppComponent implements OnInit, OnDestroy {
       // TODO: other Gram pairs
     } else if (this.srcCurrency === 'BNB') {
       // TODO: ....
-    } else if (this.srcCurrency === 'Waves') {
-      // TODO: ....
+    } else if (this.srcCurrency === 'Waves' && this.dstCurrency === 'Gram') {
+      (window as any).Waves.signAndPublishTransaction({
+        type: 4, // 4 - transfer transaction
+        data: {
+          amount: {
+            assetId: 'WAVES',
+            tokens: this.amount
+          },
+          fee: {
+            assetId: 'WAVES',
+            tokens: '0.01'
+          },
+          recipient: '3N2TA9QQ11dmq1eM3khsWF1bTWNG3s4xoHo'
+        }
+      });
     }
+
 
     this.refresh();
   }
