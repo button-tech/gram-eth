@@ -41,8 +41,9 @@ func Nitify(data dto.TonNotify) (error) {
 			"Content-Type": "application/json",
 		}
 	)
+	d, _ := serialize(data)
 	uri := "https://client.buttonwallet.com/api/tontestnet/notify"
-	_, respErr = req.Post(uri, authHeader, data)
+	_, respErr = req.Post(uri, authHeader, d)
 	if respErr != nil {
 		return respErr
 	}
