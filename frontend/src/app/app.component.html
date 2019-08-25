@@ -5,9 +5,10 @@
     <loaders-css [loader]="loader" [scale]="3" [bgColor]="bgColor" [color]="color"></loaders-css>
   </div>
 
-  <div *ngIf="!isSent" style="width: 400px;align-items: center;">
+
+  <div *ngIf="!isSent" style="width: 400px;align-items: center; display: flex;flex-direction: column">
     <!--    <h1 style="padding: 0 30px;">Ethereum ❤️ Telegram Gateway</h1>-->
-    <img style="align-self: center; margin-left: 3em; margin-bottom: 2em" width="330" src="../assets/img/grameth.png">
+    <img style="align-self: center; margin-bottom: 0" width="150" src="../assets/img/etherton.png">
 
     <mat-vertical-stepper [linear]="isLinear" #stepper class="wizard">
 
@@ -53,7 +54,7 @@
 
         <ng-template matStepLabel>SWAP TO:</ng-template>
 
-        <div style="display: flex; flex-direction: column">
+        <div style="display: flex; flex-direction: column; padding-right: 20px">
           <mat-form-field>
             <mat-select [(value)]="dstCurrency" (change)="resetAddress()">
               <mat-option *ngFor="let currency of dstList" [value]="currency">{{currency}}</mat-option>
@@ -69,7 +70,7 @@
         </div>
 
 
-        <div *ngIf="dstCurrency=='ETH'" style="display: flex; flex-direction: column">
+        <div *ngIf="dstCurrency=='ETH'" style="display: flex; flex-direction: column; padding-right: 20px">
 
           <div *ngIf="!enterManually && resolvingAddressByEmail" style="padding: 10px 20px 10px 0">
             <mat-progress-bar mode="query"></mat-progress-bar>
