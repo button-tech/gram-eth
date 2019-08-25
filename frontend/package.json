@@ -22,6 +22,8 @@
     "@angular/platform-browser-dynamic": "~8.2.3",
     "@angular/router": "~8.2.3",
     "@toruslabs/torus-embed": "0.0.28",
+    "loaders.css": "^0.1.2",
+    "ngx-loaders-css": "^1.0.2",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
