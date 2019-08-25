@@ -2,8 +2,8 @@
 
 
   <div style="width: 400px;align-items: center;">
-    <h1 style="padding: 0 30px;">Ethereum ❤️ Telegram Gateway</h1>
-
+    <!--    <h1 style="padding: 0 30px;">Ethereum ❤️ Telegram Gateway</h1>-->
+    <img style="align-self: center; margin-left: 3em; margin-bottom: 2em" width="330" src="../assets/img/grameth.png">
     <mat-vertical-stepper [linear]="isLinear" #stepper class="wizard">
 
       <mat-step>
@@ -21,7 +21,7 @@
           </small>
 
           <mat-form-field>
-            <input matInput placeholder="Enter amount of {{selectedCurrency=='ETH' ? 'ETH' : 'Grams'}}"
+            <input autocomplete="off" matInput placeholder="Enter amount of {{selectedCurrency=='ETH' ? 'ETH' : 'Grams'}}"
                    [(ngModel)]="amount" required>
 
             <!-- TODO: fix validation -->
@@ -42,8 +42,11 @@
             </div>
           </div>
 
-          <div style="margin-top: 12px">
-            <button mat-stroked-button matStepperNext color="primary">Next</button>
+          <div style="margin-top: 12px; align-self: center">
+            <button
+              style="font-size: 15px !important; background: #3f51b5; color: white; padding: 2px; padding-left: 18px; padding-right: 15px"
+              mat-stroked-button matStepperNext color="primary">Next
+            </button>
           </div>
         </div>
       </mat-step>
@@ -61,7 +64,7 @@
           </div>
 
           <mat-form-field *ngIf="!enterManually && !resolvingAddressByEmail">
-            <input matInput placeholder="Enter email" [(ngModel)]="email" required>
+            <input autocomplete="off" matInput placeholder="Enter email" [(ngModel)]="email" required>
             <mat-error *ngIf="!email">Email is required</mat-error>
           </mat-form-field>
 
@@ -80,12 +83,18 @@
               Enter Address
             </button>
           </div>
+          <div style="margin-top: 5px; align-self: center;">
+            <button style=" background: #3f51b5; color: white; margin-left: -2em" mat-stroked-button matStepperNext
+                    color="primary">
+              Next
+            </button>
+          </div>
 
         </div>
 
         <div *ngIf="selectedCurrency=='ETH'" style="display: flex; flex-direction: column">
           <mat-form-field>
-            <input matInput placeholder="Enter {{selectedCurrency=='ETH' ? 'TON' : 'ethereum'}} address"
+            <input autocomplete="off" matInput placeholder="Enter {{selectedCurrency=='ETH' ? 'TON' : 'ethereum'}} address"
                    [(ngModel)]="address" required>
             <mat-error *ngIf="!address">Address is required</mat-error>
           </mat-form-field>
