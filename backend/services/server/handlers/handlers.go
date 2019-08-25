@@ -5,7 +5,6 @@ import (
 	"github.com/button-tech/gram-eth/backend/dto"
 	"github.com/button-tech/gram-eth/backend/dto/ton"
 	"github.com/button-tech/gram-eth/backend/services/apiClient"
-	"github.com/button-tech/gram-eth/backend/services/binance"
 	"github.com/button-tech/gram-eth/backend/services/sender"
 	"github.com/gin-gonic/gin"
 	"math/big"
@@ -30,7 +29,7 @@ func ExchangeTonToEthereum(c *gin.Context) {
 		return
 	}
 	bigFloatAmount := new(big.Float).SetFloat64(floatAmount)
-	value, _ := new(big.Float).Quo(bigFloatAmount, new(big.Float).SetFloat64(10^-3)).Float64()
+	value, _ := new(big.Float).Mul(bigFloatAmount, new(big.Float).SetFloat64(0.001)).Float64()
 
 	txHash, err := sender.Send(body.SenderEthAddress, value)
 	if err != nil {
@@ -44,7 +43,7 @@ func ExchangeTonToEthereum(c *gin.Context) {
 }
 
 func ExchangeTonToBnb(c *gin.Context) {
-	var body dto.ExchangeTonToEthereum
+/*	var body dto.ExchangeTonToEthereum
 	if err := c.Bind(&body); err != nil {
 		c.JSON(http.StatusBadRequest, "error")
 		return
@@ -56,9 +55,9 @@ func ExchangeTonToBnb(c *gin.Context) {
 		return
 	}
 	bigFloatAmount := new(big.Float).SetFloat64(floatAmount)
-	value, _ := new(big.Float).Mul(bigFloatAmount, new(big.Float).SetFloat64(10^6)).Int64()
+	value, _ := new(big.Float).Mul(bigFloatAmount, new(big.Float).SetFloat64(10^6)).Int64()*/
 
-	binance.SendTransaction(body.SenderEthAddress, value)
+	//binance.SendTransaction(body.SenderEthAddress, value)
 }
 
 func PrepareExchangeEthereumToTon(c *gin.Context) {
