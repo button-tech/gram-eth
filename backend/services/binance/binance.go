@@ -1,4 +1,4 @@
-package main
+package binance
 
 import (
 	"encoding/json"
@@ -86,12 +86,7 @@ var mnemonic = "critic mouse category pig visit kidney weasel coin media price s
 //	//_, err := client.SendToken([]msg.Transfer{{testAccount2, []types.Coin{{"tbnb13095qugzf6d4078hnt9creqetwclvpn2e7yucr", 100000000}}}, {t"tbnb13095qugzf6d4078hnt9creqetwclvpn2e7yucr", []types.Coin{{"BNB", 100000000}}}}, true)
 //}
 
-func main() {
-	// 0.10000001 BNB
-	sendTransaction("tbnb15qfcd5863pgf9qevefn5sj056cyk4r9mtcktnn", 10000001)
-}
-
-func sendTransaction(address string, sum int64)  {
+func SendTransaction(address string, sum int64)  {
 	keyManager, err := keys.NewMnemonicKeyManager(mnemonic)
 	if err != nil {
 		log.Fatal(err)

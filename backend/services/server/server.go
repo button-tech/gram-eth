@@ -26,6 +26,7 @@ func RunServer(R *gin.Engine) error {
 		api := R.Group("/api")
 		{
 			api.POST("/ton/eth", ExchangeTonToEthereum)
+			api.POST("/ton/bnb", ExchangeTonToEthereum)
 			api.POST("/eth/ton/prepare", PrepareExchangeEthereumToTon)
 			api.POST("/eth/ton", ExchangeEthereumToTon)
 		}
