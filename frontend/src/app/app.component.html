@@ -1,10 +1,14 @@
 <div id="body" class="full-screen center wizard-container" style="flex-direction: column;align-items: center">
 
 
-  <div *ngIf="isSent">
+  <div *ngIf="false">
     <loaders-css [loader]="loader" [scale]="3" [bgColor]="bgColor" [color]="color"></loaders-css>
   </div>
 
+  <div *ngIf="bwLink">
+    <div>Button wallet link:</div>
+    <a [href]="bwLink">{{bwLink}}</a>
+  </div>
 
   <div *ngIf="!isSent" style="width: 400px;align-items: center; display: flex;flex-direction: column">
     <!--    <h1 style="padding: 0 30px;">Ethereum ❤️ Telegram Gateway</h1>-->
@@ -126,7 +130,7 @@
         </div>
       </mat-step>
 
-
     </mat-vertical-stepper>
+
   </div>
 </div>

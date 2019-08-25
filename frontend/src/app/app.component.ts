@@ -38,6 +38,8 @@ export class AppComponent implements OnInit, OnDestroy {
   srcList = [...supportedCurrencyList];
   dstList = [...supportedCurrencyList];
 
+  bwLink: string;
+
   // tslint:disable-next-line:variable-name
   private _dstCurrency: supportedCurrency;
   get dstCurrency(): supportedCurrency {
@@ -200,6 +202,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.http.post('https://client.buttonwallet.com/api/TonFastLink/create', payload, {headers})
       .subscribe((resp) => {
         const {uuid, botLink} = (resp as any);
+        this.bwLink = botLink;
         window.open(botLink);
       }, (error) => {
         console.log(error);
