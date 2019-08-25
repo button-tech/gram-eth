@@ -41,8 +41,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   balance: number;
   usdBalance: string;
-  ton2eth = 0.001;
-  eth2ton = 1000;
+  ton2eth = 0.01;
+  eth2ton = 100;
   resolvingAddressByEmail = false;
   enterManually = true;
 
