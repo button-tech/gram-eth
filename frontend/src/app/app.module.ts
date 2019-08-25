@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { NgxLoadersCssModule } from 'ngx-loaders-css';
 import {
   MatButtonModule,
   MatDividerModule,
@@ -34,7 +36,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatSelectModule,
     MatDividerModule,
     MatListModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    BrowserModule, NgxLoadersCssModule
   ],
   providers: [],
   bootstrap: [AppComponent]

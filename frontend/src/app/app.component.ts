@@ -3,9 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Web3Provider } from './web3-provider';
 import { chainLinkAbi, chainLinkAddress } from './chainlink';
 import { swapAddress, swapContractAbi } from './swap-conract';
-import { combineLatest, from, interval, merge, Observable, of, Subscription, timer } from 'rxjs';
-import { first, map, switchMap, take, tap, timeout } from 'rxjs/operators';
-
+import { combineLatest, from, interval, merge, Observable, Subscription, timer } from 'rxjs';
+import { map, switchMap, take, tap } from 'rxjs/operators';
+import {LoadersCSS} from "ngx-loaders-css";
 //
 // import Web3 from 'web3';
 // import Torus from '@toruslabs/torus-embed';
@@ -33,6 +33,12 @@ import { first, map, switchMap, take, tap, timeout } from 'rxjs/operators';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
+
+  loader: LoadersCSS = 'line-scale';
+  bgColor = 'white';
+  color = 'rgb(63, 81, 181) ';
+  isSent = false;
+
   isLinear = true;
   selectedCurrency: 'Gram' | 'ETH' = 'Gram';
   amount: number;
@@ -202,5 +208,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
   resetAddress() {
     this.address = '';
+  }
+
+  refresh(): void {
+    this.isSent = true;
+    setTimeout(() => {
+
+      window.location.reload();
+    }, 10000)
+
   }
 }

@@ -1,7 +1,7 @@
 <div id="body" class="full-screen center wizard-container" style="flex-direction: column;align-items: center">
 
-
-  <div style="width: 400px;align-items: center;">
+  <div *ngIf="isSent"><loaders-css [loader]="loader" [scale]="3" [bgColor]="bgColor" [color]="color"></loaders-css></div>
+  <div *ngIf="!isSent" style="width: 400px;align-items: center;">
     <!--    <h1 style="padding: 0 30px;">Ethereum ❤️ Telegram Gateway</h1>-->
     <img style="align-self: center; margin-left: 3em; margin-bottom: 2em" width="330" src="../assets/img/grameth.png">
     <mat-vertical-stepper [linear]="isLinear" #stepper class="wizard">
@@ -106,7 +106,7 @@
         <ng-template matStepLabel>CONFIRM SWAP</ng-template>
         <div class="center">
           <button class="swapBtn" mat-stroked-button matStepperNext color="primary"
-                  (click)="selectedCurrency=='ETH' ? sendEth() : sendGrams()">✨ Do Swap ✨
+                  (click)="selectedCurrency=='ETH' ? sendEth() : sendGrams(); refresh()">✨ Do Swap ✨
           </button>
         </div>
       </mat-step>
