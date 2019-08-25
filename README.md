@@ -5,5 +5,5 @@ We just allow you to exchange and receive GRAMS to ETH, BNB, WAVES using hash lo
 
 Also we integrated ChainLink and Torus to our project.
 
-See it at berlin.buttonwallet.com
+See it at berlin.buttonwallet.tech
 <img src="https://github.com/button-tech/gram-eth/blob/master/docs/torus.gif?raw=true" alt="" data-canonical-src="https://github.com/button-tech/gram-eth/blob/master/docs/torus.gif?raw=true" width="450" height="350" />
