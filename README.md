@@ -13,7 +13,7 @@ See it at https://berlin.buttonwallet.tech
 <img src="https://github.com/button-tech/gram-eth/blob/master/img/amount.jpg" alt="" data-canonical-src="https://github.com/button-tech/gram-eth/blob/master/img/amount.jpg" />
 
 ## What is the destination address?
-<img src="https://github.com/button-tech/gram-eth/blob/master/img/send.jpg" alt="" data-canonical-src="https://github.com/button-tech/gram-eth/blob/master/img/send.jpg" />
+<img src="https://github.com/button-tech/gram-eth/blob/master/img/swap.jpg" alt="" data-canonical-src="https://github.com/button-tech/gram-eth/blob/master/img/swap.jpg" />
 
 ## Just send GRAMs!
 <img src="https://github.com/button-tech/gram-eth/blob/master/img/done.jpg" alt="" data-canonical-src="https://github.com/button-tech/gram-eth/blob/master/img/done.jpg" />
