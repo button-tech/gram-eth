@@ -1,4 +1,4 @@
-# gram-eth
+# ether-ton
 First exchange ETH to GRAM and back. We use Telegram Open Network 
 
 We just allow you to exchange and receive GRAMS to ETH, BNB, WAVES using hash locks.
