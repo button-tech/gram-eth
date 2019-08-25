@@ -123,7 +123,7 @@ export class AppComponent implements OnInit, OnDestroy {
     //
     const payload = {
       currency: 'TonTestNet',
-      amount: 3,
+      amount: this.amount,
       address: 'd16c2312004621ff65ba4425d86aee437c8fb2ec7bef96824fe09099158c17ee',
       ethAddressToSend: this.address,
       tokenAddress: null,
