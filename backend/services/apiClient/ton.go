@@ -1,21 +1,27 @@
 package apiClient
 
 import (
-	"github.com/imroc/req"
 	"github.com/button-tech/gram-eth/backend/dto/ton"
+	"github.com/imroc/req"
 	"net/http"
 )
 
 var (
-	webhookUrl string
+	webHookUrl string
+	txData     *ton.TxGram
 )
 
-func InitTonApiCLient(webhookUrl string) {
-	webhookUrl = webhookUrl
+func InitTonApiCLient(url string, gram *ton.TxGram) {
+	webHookUrl = url
+	txData = gram
 }
 
 func CreateTransaction(request ton.CreateTransactionRequest) (ton.PrepareTransactionResponse, error) {
-	request.WebhookUrl = webhookUrl
+	request.WebHookUrl = webHookUrl
+	request.Network = txData.Network
+	request.SenderId = txData.SenderId
+	request.SenderPub = txData.SenderPub
+
 	call := apiCall("POST", "/send", request)
 	if call.StatusCode != http.StatusOK {
 		return ton.PrepareTransactionResponse{}, call.Error

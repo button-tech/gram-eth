@@ -3,7 +3,9 @@ package ethereum
 import (
 	"context"
 	"crypto/ecdsa"
+	"github.com/button-tech/gram-eth/backend/contract"
 	"github.com/ethereum/go-ethereum"
+
 	//"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
@@ -19,8 +21,8 @@ var DecimalMultiplier = new(big.Float).SetFloat64(math.Pow(10, 18))
 type Contract struct {
 	NetworkID types.EIP155Signer
 	Address   common.Address
-	//Instance  *airdrop.Airdrop
-	Client *ethclient.Client
+	Instance  *contract.Contract
+	Client    *ethclient.Client
 }
 
 type SingleTransaction struct {
@@ -29,28 +31,28 @@ type SingleTransaction struct {
 	privateKey string
 }
 
-//func ConnectContract(endpoint string, contractAddress string) (*Contract, error) {
-//	client, err := ethclient.Dial(endpoint)
-//	if err != nil {
-//		return nil, err
-//	}
-//	chainID, err := client.NetworkID(context.Background())
-//	if err != nil {
-//		return nil, err
-//	}
-//	address := common.HexToAddress(contractAddress)
-//	instance, err := airdrop.NewAirdrop(address, client)
-//	if err != nil {
-//		return nil, err
-//	}
-//
-//	return &Contract{
-//		NetworkID: types.NewEIP155Signer(chainID),
-//		Address:   address,
-//		Instance:  instance,
-//		Client:    client,
-//	}, nil
-//}
+func ConnectContract(endpoint string, contractAddress string) (*Contract, error) {
+	client, err := ethclient.Dial(endpoint)
+	if err != nil {
+		return nil, err
+	}
+	chainID, err := client.NetworkID(context.Background())
+	if err != nil {
+		return nil, err
+	}
+	address := common.HexToAddress(contractAddress)
+	instance, err := contract.NewContract(address, client)
+	if err != nil {
+		return nil, err
+	}
+
+	return &Contract{
+		NetworkID: types.NewEIP155Signer(chainID),
+		Address:   address,
+		Instance:  instance,
+		Client:    client,
+	}, nil
+}
 
 func Connect(endpoint, privateKey string) (*SingleTransaction, error) {
 	client, err := ethclient.Dial(endpoint)

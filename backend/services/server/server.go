@@ -1,9 +1,9 @@
 package server
 
 import (
+	. "github.com/button-tech/gram-eth/backend/services/server/handlers"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	. "github.com/button-tech/gram-eth/backend/services/server/handlers"
 )
 
 func InitServer() *gin.Engine {

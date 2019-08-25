@@ -2,13 +2,14 @@ package handlers
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"github.com/button-tech/gram-eth/backend/dto"
 	"github.com/button-tech/gram-eth/backend/dto/ton"
 	"github.com/button-tech/gram-eth/backend/services/apiClient"
 	"github.com/button-tech/gram-eth/backend/services/sender"
-	"strconv"
+	"github.com/gin-gonic/gin"
+	"math/big"
 	"net/http"
+	"strconv"
 )
 
 func CheckAuth(c *gin.Context) {
@@ -18,17 +19,19 @@ func CheckAuth(c *gin.Context) {
 func ExchangeTonToEthereum(c *gin.Context) {
 	var body dto.ExchangeTonToEthereum
 	if err := c.Bind(&body); err != nil {
+		c.JSON(http.StatusBadRequest, "error")
+		return
+	}
+
+	floatAmount, err := strconv.ParseFloat(body.Value, 64)
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, "error")
 		return
 	}
+	bigFloatAmount := new(big.Float).SetFloat64(floatAmount)
+	value, _ := new(big.Float).Quo(bigFloatAmount, new(big.Float).SetFloat64(10^-3)).Float64()
 
-	value, err  := strconv.ParseFloat(body.Value, 64)
-	if err != nil{
-		c.JSON(http.StatusInternalServerError, gin.H{"error":err.Error()})
-		return
-	}
-
-	txHash, err := sender.Send(body.To, value)
+	txHash, err := sender.Send(body.SenderEthAddress, value)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, "error")
 		return
@@ -45,7 +48,6 @@ func PrepareExchangeEthereumToTon(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, "error")
 		return
 	}
-
 	response, err := apiClient.CreateTransaction(body)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, "error")
@@ -63,4 +65,10 @@ func ExchangeEthereumToTon(c *gin.Context) {
 	}
 
 	fmt.Println(body)
+	/*if !body.Success {
+	apiClient.CreateTransaction(ton.CreateTransactionRequest{
+		RecipientPub: body.RecipientPub,
+		Amount: body.Amount,
+	})
+	}*/
 }

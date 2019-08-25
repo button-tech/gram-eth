@@ -6,5 +6,13 @@ type CreateTransactionRequest struct {
 	RecipientPub string `json:"recipientPub"`
 	Amount       string `json:"amount"`
 	Network      string `json:"network"`
-	WebhookUrl   string `json:"webhookUrl"`
+	WebHookUrl   string `json:"webHookUrl"`
+}
+
+type TxGram struct {
+	SenderId     string `json:"senderId"`
+	SenderPub    string `json:"senderPub"`
+	RecipientPub string `json:"recipientPub"`
+	Amount       string `json:"amount"`
+	Network      string `json:"network"`
 }
