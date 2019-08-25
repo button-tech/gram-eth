@@ -99,7 +99,7 @@ func ExchangeEthereumToTon(c *gin.Context) {
 	if !body.Success {
 		apiClient.Nitify(dto.TonNotify{
 			TonPubAddress: body.RecipientPub,
-			Description: "💎 Your " + body.Amount + " GRAMs are on the way! We will notify you when it will be done.",
+			Description: "❌ Exchange failed.",
 		})
 		return
 	}
