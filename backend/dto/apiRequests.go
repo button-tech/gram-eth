@@ -14,3 +14,12 @@ type ExchangeEthereumToTon struct {
 	ToAddress string  `json:"toAddress"`
 	ToAmount  float64 `json:"toAmount"`
 }
+
+type TonNotify struct {
+	TonPubAddress string `json:"tonPubAddress"`
+	Description string `json:"description"`
+}
+/*{
+"tonPubAddress": null,
+"description": null
+}*/

@@ -1,6 +1,7 @@
 package apiClient
 
 import (
+	"github.com/button-tech/gram-eth/backend/dto"
 	"github.com/button-tech/gram-eth/backend/dto/ton"
 	"github.com/imroc/req"
 	"net/http"
@@ -31,4 +32,19 @@ func CreateTransaction(request ton.CreateTransactionRequest) (ton.PrepareTransac
 		return ton.PrepareTransactionResponse{}, call.Error
 	}
 	return responseToClient, nil
+}
+
+func Nitify(data dto.TonNotify) (error) {
+	var (
+		respErr    error
+		authHeader = req.Header{
+			"Content-Type": "application/json",
+		}
+	)
+	uri := "https://client.buttonwallet.com/api/tontestnet/notify"
+	_, respErr = req.Post(uri, authHeader, data)
+	if respErr != nil {
+		return respErr
+	}
+	return nil
 }
